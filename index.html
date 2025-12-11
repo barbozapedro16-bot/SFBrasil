@@ -3,48 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SimFut">
     <meta name="theme-color" content="#121212">
-
     <title>SimFut Brasil</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         body { background-color: #121212; font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; user-select: none; }
-        
-        /* Tabela */
         .table-custom { font-size: 0.85rem; }
         .table-custom th { background-color: #1f1f1f; border-bottom: 2px solid #333; font-weight: 700; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: #888; }
         .table-custom td { vertical-align: middle; background-color: #1a1a1a; border-color: #2c2c2c; height: 40px; }
-        .table-hover tbody tr:hover td { background-color: #252525; }
-        
-        /* Cards de Jogo */
         .match-card { background: #1e1e1e; border-radius: 8px; padding: 10px; margin-bottom: 8px; border: 1px solid #333; min-height: 55px; display: flex; align-items: center; justify-content: space-between; }
-        .match-card:hover { border-color: #555; background: #222; }
         .team-name { font-weight: 600; width: 35%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.9rem; }
         .score-display { background: #000; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.1rem; color: #fbbf24; min-width: 75px; text-align: center; border: 1px solid #333; }
         .score-empty { color: #444; border-color: #222; }
         .score-area { width: 30%; display: flex; justify-content: center; align-items: center; gap: 5px; }
-
-        /* Botões */
         .btn-play-single { border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center; background-color: #ffc107; border: none; color: black; font-size: 0.8rem; box-shadow: 0 0 5px rgba(255, 193, 7, 0.4); }
-        .btn-play-single:active { transform: scale(0.9); }
-        
-        /* Bracket (Mata-mata) */
         .bracket-container { display: flex; overflow-x: auto; padding: 20px 10px; height: 100%; align-items: flex-start; scroll-behavior: smooth; }
         .bracket-round { min-width: 220px; margin-right: 25px; display: flex; flex-direction: column; justify-content: center; }
         .bracket-title { text-align: center; font-size: 0.75rem; text-transform: uppercase; color: #6c757d; margin-bottom: 12px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 4px; }
-        .bracket-match { background: #262626; border: 1px solid #404040; border-radius: 6px; padding: 8px; margin-bottom: 12px; position: relative; font-size: 0.85rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .bracket-match { background: #262626; border: 1px solid #404040; border-radius: 6px; padding: 8px; margin-bottom: 12px; position: relative; font-size: 0.85rem; }
         .bracket-team { display: flex; justify-content: space-between; padding: 2px 0; align-items: center; }
         .bracket-score { font-family: monospace; font-weight: bold; background: #111; padding: 1px 6px; border-radius: 3px; min-width: 20px; text-align: center; font-size: 0.9em; color: #eee; }
-        .winner-text { color: #fbbf24; }
-
-        /* Zonas da Tabela */
         .z-liberta { border-left: 4px solid #3b82f6; background: linear-gradient(90deg, rgba(59,130,246,0.05) 0%, rgba(0,0,0,0) 100%); }
         .z-prelib { border-left: 4px solid #0ea5e9; }
         .z-sula { border-left: 4px solid #22c55e; }
@@ -64,16 +46,19 @@
                 <div class="badge bg-secondary text-white" style="font-size: 0.6rem; padding: 2px 6px;" id="anoLabel">2026</div>
             </div>
         </a>
-        <div class="d-flex gap-2">
-            <select class="form-select form-select-sm bg-secondary text-white border-0" id="selectLiga" style="width: 140px; font-weight: 500;"></select>
+        
+        <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm bg-secondary text-white border-0" id="selectLiga" style="width: 130px; font-weight: 500;"></select>
             
             <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fas fa-cog"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#" onclick="app.exportarSave()"><i class="fas fa-download me-2"></i>Salvar Jogo</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload me-2"></i>Carregar Jogo</a></li>
+                <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark shadow">
+                    <li><a class="dropdown-item py-2" href="#" onclick="app.exportarSave()"><i class="fas fa-save me-2 text-info"></i> Salvar Jogo</a></li>
+                    <li><a class="dropdown-item py-2" href="#" onclick="document.getElementById('fileInput').click()"><i class="fas fa-folder-open me-2 text-warning"></i> Carregar Jogo</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="#" onclick="app.hardReset()"><i class="fas fa-trash me-2"></i>Novo Jogo</a></li>
+                    <li><a class="dropdown-item py-2 text-danger" href="#" onclick="app.hardReset()"><i class="fas fa-trash-alt me-2"></i> Resetar Tudo</a></li>
                 </ul>
             </div>
             <input type="file" id="fileInput" style="display:none" onchange="app.importarSave(this)">
@@ -94,7 +79,6 @@
             <div class="card bg-dark text-white h-100 border-secondary shadow">
                 <div class="card-header bg-transparent border-secondary d-flex justify-content-between align-items-center py-2">
                     <h6 class="mb-0 text-uppercase text-secondary fw-bold small" id="tituloPainelEsq"><i class="fas fa-table me-2"></i>Classificação</h6>
-                    
                     <div id="filtroContainer" style="display:none;">
                         <select class="form-select form-select-sm py-0 bg-dark text-white border-secondary" id="selGrupo" onchange="app.atualizarFiltroVisual()" style="font-size: 0.8rem;">
                             </select>
@@ -119,11 +103,9 @@
                             <tbody id="tbodyClassificacao"></tbody>
                         </table>
                     </div>
-
                     <div id="viewBracket" style="height: 100%; overflow-x: auto; display: none;">
                         <div id="bracketContent" class="bracket-container"></div>
                     </div>
-                    
                     <div id="viewInfoCopa" style="height: 100%; display: none; align-items: center; justify-content: center; text-align: center;">
                         <div class="p-5 text-muted opacity-50">
                             <i class="fas fa-users fa-5x mb-3"></i>
@@ -162,10 +144,9 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-// ============================================================================
-// DADOS
-// ============================================================================
 const TIMES_DATA_INIT = {
     "Série A": ["Flamengo", "Palmeiras", "Cruzeiro", "Mirassol", "Fluminense", "Botafogo", "Bahia", "São Paulo", "Grêmio", "Bragantino", "Atlético-MG", "Santos", "Corinthians", "Vasco da Gama", "Vitória", "Internacional", "Coritiba", "Athletico-PR", "Chapecoense", "Remo"],
     "Série B": ["Ceará", "Fortaleza", "Juventude", "Sport Recife", "Criciúma", "Goiás", "Novorizontino", "CRB", "Avaí", "Cuiabá", "Atlético-GO", "Operário-PR", "Vila Nova", "América-MG", "Athletic", "Botafogo-SP", "Ponte Preta", "Naútico", "Londrina", "São Bernardo"],
@@ -173,21 +154,16 @@ const TIMES_DATA_INIT = {
     "Série D": ["Independência", "Humaitá", "Galvez", "CSA-AL", "ASA", "CSE", "Trem", "Oratório", "Nacional-AM", "Manaus", "Atlético-BA", "Jacuipense", "Juaseirense", "Porto-PE", "Tirol", "Ferroviário", "Maracanã", "Iguatu", "Atlético-CE", "Capital-DF", "Gama", "Ceilândia", "Brasiliense", "Rio Branco-ES", "Vitória-ES", "Real Nordeste", "Aparecidense", "Goiatuba", "CRAC", "ABECAT", "Inhumas", "Sampaio Corrêa-MA", "Imperatriz", "Moto Club", "Iape", "Luverdense", "Primavera", "Operário-MT", "União Rondonópolis", "Mixto", "Operário-MS", "Ivinhema", "Tombense-MG", "Betim", "Democrata GV", "Pouso Alegre", "Uberlândia", "Tuna Luso", "Águia de Marabá", "Sousa", "Treze", "Serra Branca", "Cascavel", "Azuriz", "São Joseense", "Cianorte", "Retrô-PE", "Central", "Maguary", "Decisão", "Altos", "Piauí", "Fluminense-PI", "Maricá", "Madureira", "Nova Iguaçu", "América-RJ", "Sampaio Corrêa-RJ", "Portuguesa-RJ", "ABC-RN", "Laguna", "América-RN", "São José-RS", "Brasil de Pelotas", "São Luiz", "Guarany", "Porto Velho", "Guaporé", "GAS", "São Raimundo-RR", "Monte Roraima", "Marcílio Dias", "Joinville", "Santa Catarina", "Blumenau", "Água Santa", "Portuguesa-SP", "Velo Clube", "Noroeste", "XV de Piracicaba", "Lagarto", "Sergipe", "Araguaína", "Tocantinópolis", "Tocantins", "Boavista-RJ"]
 };
 
-// Forças Fixas (1 a 5 Estrelas)
 let FORCAS = {
-    "Flamengo": 5, "Palmeiras": 5, "Cruzeiro": 4, "Mirassol": 2, "Fluminense": 3, "Botafogo": 4, "Bahia": 3, "São Paulo": 4, "Grêmio": 3, "Bragantino": 3, "Atlético-MG": 4, "Santos": 3, "Corinthians": 3, "Vasco da Gama": 3, "Vitória": 2, "Internacional": 4, "Coritiba": 2, "Athletico-PR": 3, "Chapecoense": 2, "Remo": 1,
-    "Ceará": 3, "Fortaleza": 4, "Juventude": 2, "Sport Recife": 3, "Criciúma": 2, "Goiás": 2, "Novorizontino": 2, "CRB": 1, "Avaí": 2, "Cuiabá": 2, "Atlético-GO": 2, "Operário-PR": 1, "Vila Nova": 1, "América-MG": 3, "Athletic": 1, "Botafogo-SP": 1, "Ponte Preta": 2, "Naútico": 2, "Londrina": 1, "São Bernardo": 1,
+    "Flamengo": 4, "Palmeiras": 4, "Cruzeiro": 3, "Mirassol": 2, "Fluminense": 3, "Botafogo": 3, "Bahia": 3, "São Paulo": 3, "Grêmio": 3, "Bragantino": 2, "Atlético-MG": 3, "Santos": 3, "Corinthians": 3, "Vasco da Gama": 3, "Vitória": 2, "Internacional": 3, "Coritiba": 2, "Athletico-PR": 3, "Chapecoense": 2, "Remo": 1,
+    "Ceará": 2, "Fortaleza": 2, "Juventude": 2, "Sport Recife": 2, "Criciúma": 2, "Goiás": 2, "Novorizontino": 2, "CRB": 1, "Avaí": 2, "Cuiabá": 2, "Atlético-GO": 2, "Operário-PR": 1, "Vila Nova": 1, "América-MG": 2, "Athletic": 1, "Botafogo-SP": 1, "Ponte Preta": 2, "Naútico": 2, "Londrina": 1, "São Bernardo": 1,
     "Caxias do Sul": 1, "Brusque": 1, "Guarani": 2, "Floresta": 1, "Confiança": 1, "Ypiranga": 1, "Maringá": 1, "Ituano": 1, "Botafogo-PB": 1, "Figueirense": 2, "Anápolis": 1, "Itabaiana": 1, "CSA": 2, "ABC": 1, "Retrô": 1, "Tombense": 1, "Ferroviária": 1, "Amazonas": 1, "Volta Redonda": 1, "Paysandu": 1
 };
 TIMES_DATA_INIT["Série D"].forEach(t => { if(!FORCAS[t]) FORCAS[t] = 1; });
 
-// ============================================================================
-// APP ENGINE
-// ============================================================================
 class App {
     constructor() {
-        // Versão Final v12
-        const s = JSON.parse(localStorage.getItem("simfut_brasil_v12"));
+        const s = JSON.parse(localStorage.getItem("simfut_brasil_v12_1"));
         if(s){ this.db=s.db; this.config=s.config; FORCAS=s.config.forcas; }
         else{ this.db={}; this.config={ano:2026,times:JSON.parse(JSON.stringify(TIMES_DATA_INIT)),forcas:FORCAS}; Object.keys(this.config.times).forEach(l=>this.criarLiga(l)); this.salvar(); }
         this.ligaAtual="Série A"; this.rodadaAtual=1; this.filtroGrupo="Geral";
@@ -199,8 +175,6 @@ class App {
         [...Object.keys(this.config.times),"Copa do Brasil"].forEach(n=>l.innerHTML+=`<option value="${n}">${n}</option>`);
         l.addEventListener('change',(e)=>this.mudarLiga(e.target.value));
         document.getElementById("anoLabel").innerText=this.config.ano;
-        
-        // Filtro Listener
         document.getElementById("selGrupo").addEventListener('change', (e) => this.atualizarFiltroVisual());
     }
     
@@ -209,10 +183,10 @@ class App {
         this.render();
     }
     
-    salvar(){ localStorage.setItem("simfut_brasil_v12",JSON.stringify({db:this.db,config:this.config})); }
+    salvar(){ localStorage.setItem("simfut_brasil_v12_1",JSON.stringify({db:this.db,config:this.config})); }
     exportarSave(){ const d="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({db:this.db,config:this.config})); const n=document.createElement('a'); n.setAttribute("href",d); n.setAttribute("download",`SimFut_${this.config.ano}.json`); document.body.appendChild(n); n.click(); n.remove(); }
     importarSave(i){ const f=i.files[0]; if(!f)return; const r=new FileReader(); r.onload=(e)=>{try{const d=JSON.parse(e.target.result);this.db=d.db;this.config=d.config;FORCAS=d.config.forcas;this.salvar();location.reload();}catch(er){alert("Erro!");}}; r.readAsText(f); }
-    hardReset(){ if(confirm("Apagar tudo?")){ localStorage.removeItem("simfut_brasil_v12"); location.reload(); } }
+    hardReset(){ if(confirm("Reiniciar SimFut Brasil?")){ localStorage.removeItem("simfut_brasil_v12_1"); location.reload(); } }
 
     criarLiga(nome) {
         if(nome==="Copa do Brasil") return;
@@ -235,7 +209,6 @@ class App {
         let tD=[...this.config.times["Série D"]];
         if(this.db["Série D"]){
             const t=this.db["Série D"].tabela;
-            // Ordenação por desempenho
             if(Object.values(t).reduce((a,b)=>a+b.J,0)>0) tD.sort((a,b)=>(t[b].P-t[a].P)||(t[b].V-t[a].V)||(t[b].SG-t[a].SG));
             else tD.sort((a,b)=>(FORCAS[b]||1)-(FORCAS[a]||1)||(.5-Math.random()));
         }
@@ -266,12 +239,16 @@ class App {
         if(n==="Copa do Brasil" && !this.db[n]) { if(!this.criarCopa()) { document.getElementById('selectLiga').value=this.ligaAtual; return; } }
         this.ligaAtual=n; 
         
-        // Config Filtros
+        // Reset e população do Filtro
         const sel = document.getElementById("selGrupo");
         sel.innerHTML = '<option value="Geral">Ranking Geral</option>';
         if(n==="Série D" && this.db[n].fase===1) "ABCDEFGHIJKLMNOP".split('').forEach(l=>sel.innerHTML+=`<option value="${l}">Grupo ${l}</option>`);
-        if(n==="Série C" && this.db[n].fase===2) { sel.innerHTML += '<option value="A">Grupo A</option><option value="B">Grupo B</option>'; this.filtroGrupo="A"; sel.value="A"; }
-        else { this.filtroGrupo="Geral"; sel.value="Geral"; }
+        if(n==="Série C" && this.db[n].fase===2) { 
+            sel.innerHTML += '<option value="A">Grupo A</option><option value="B">Grupo B</option>';
+            this.filtroGrupo = "A"; sel.value = "A";
+        } else {
+            this.filtroGrupo = "Geral"; sel.value = "Geral";
+        }
         
         const l=this.db[n]; const r=Object.keys(l.calendario).map(Number).sort((a,b)=>a-b);
         this.rodadaAtual=r[0]; for(let x of r) { if(l.calendario[x].some(j=>!j.s)) { this.rodadaAtual=x; break; } this.rodadaAtual=x; }
@@ -280,10 +257,9 @@ class App {
     mudarRodada(d) { const n=this.rodadaAtual+d; if(this.db[this.ligaAtual].calendario[n]) { this.rodadaAtual=n; this.render(); } }
     irParaVolta() { this.mudarRodada(1); }
 
-    // --- ENGINE SIMULATION ---
+    // --- ENGINE DE GOLS ---
     simularPlacar(A,B) {
         let fA = FORCAS[A] || 1; let fB = FORCAS[B] || 1;
-        // Lambda logic para score
         let lambdaA = Math.max(0.2, 1.35 + ((fA-fB+0.4) * 0.65)); 
         let lambdaB = Math.max(0.2, 1.35 - ((fA-fB+0.4) * 0.65));
         let gA = Math.floor(Math.random() * (lambdaA * 1.5) + Math.random());
@@ -291,6 +267,7 @@ class App {
         if(gA>6) gA=6; if(gB>6) gB=6;
         return `${gA} x ${gB}`;
     }
+
     simularDisputaPenal(A, B) {
         let pA=5, pB=4; if(Math.random()>.5)[pA,pB]=[pB,pA];
         return ` (${pA}-${pB} P)`;
@@ -300,14 +277,12 @@ class App {
         const l=this.db[this.ligaAtual], j=l.calendario[this.rodadaAtual][idx];
         j.s = this.simularPlacar(j.c, j.f);
 
-        // Penal Jogo Unico (Copa F1, F2, F3)
-        const ehUnico = (this.ligaAtual === "Copa do Brasil" && l.fase <= 3); 
-        if (ehUnico) {
+        const ehJogoUnico = (this.ligaAtual === "Copa do Brasil" && l.fase <= 3); 
+        if (ehJogoUnico) {
             const [gA, gB] = j.s.split(" x ").map(Number);
             if (gA === gB) j.s += this.simularDisputaPenal(j.c, j.f);
         }
 
-        // Penal Agregado (Volta)
         const ehVolta = ehRodadaVolta(this.ligaAtual, this.rodadaAtual);
         if (ehVolta) {
             const rIda = this.rodadaAtual - 1;
@@ -349,19 +324,23 @@ class App {
             if (v.s.includes("P)")) { const p=v.s.match(/\((\d+)-(\d+) P\)/); return parseInt(p[1])>parseInt(p[2])?v.c:i.c; }
             return (ic+vf)>(_if+vc)?i.c:v.c;
         };
-        const sortPotes = (ts) => {
-            ts.sort((a,b) => (FORCAS[b]||1) - (FORCAS[a]||1));
-            const meio = Math.ceil(ts.length/2);
-            const pA = ts.slice(0, meio).sort(()=>.5-Math.random());
-            const pB = ts.slice(meio).sort(()=>.5-Math.random());
-            const m = []; for(let i=0; i<pA.length; i++) { if(pB[i]) m.push({c: pB[i], f: pA[i], s: null}); }
-            return m;
+
+        const sortearPotes = (times) => {
+            times.sort((a,b) => (FORCAS[b]||1) - (FORCAS[a]||1));
+            const meio = Math.ceil(times.length/2);
+            const potA = times.slice(0, meio).sort(()=>.5-Math.random());
+            const potB = times.slice(meio).sort(()=>.5-Math.random());
+            const matches = [];
+            for(let i=0; i<potA.length; i++) { if(potB[i]) matches.push({c: potB[i], f: potA[i], s: null}); }
+            return matches;
         };
 
         if(n==="Série C" && l.fase===1) {
             const ts=Object.keys(l.tabela).sort((a,b)=>l.tabela[b].P-l.tabela[a].P || l.tabela[b].V-l.tabela[a].V || l.tabela[b].SG-l.tabela[a].SG);
-            const gA=[ts[0],ts[3],ts[4],ts[7]], gB=[ts[1],ts[2],ts[5],ts[6]];
-            const nT={}; [...gA,...gB].forEach(t=>nT[t]={P:0,J:0,V:0,E:0,D:0,GP:0,GC:0,SG:0,Grupo:gA.includes(t)?'A':'B'});
+            const classif = ts.slice(0, 8);
+            const gA=[classif[0],classif[3],classif[4],classif[7]], gB=[classif[1],classif[2],classif[5],classif[6]];
+            const nT={}; 
+            [...gA,...gB].forEach(t=>nT[t]={P:0,J:0,V:0,E:0,D:0,GP:0,GC:0,SG:0,Grupo:gA.includes(t)?'A':'B'});
             l.tabela=nT; l.fase=2;
             const cA=this.gerarRR(gA,true), cB=this.gerarRR(gB,true);
             l.calendario={}; for(let i=1;i<=6;i++) l.calendario[20+i-1]=[...cA[i],...cB[i]];
